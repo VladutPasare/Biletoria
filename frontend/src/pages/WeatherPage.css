@@ -1,0 +1,18 @@
+.weather-top-bar {
+    background-color: rgb(59, 124, 255);
+    width: 100%;
+}
+
+.weather-top-bar p {
+    color: white;
+    padding: 0rem 5rem;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+@media (max-width: 1000px) {
+    .weather-top-bar p {
+        padding: 0rem 1rem;
+        font-size: 16px;
+    }
+}

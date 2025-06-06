@@ -1,0 +1,77 @@
+.search-route-details {
+    height: 6rem;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 10%;
+    gap: 5%;
+    box-sizing: border-box;
+}
+
+.locations-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.swap-image-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2rem;
+    width: 2rem;
+    cursor: pointer;
+}
+
+.swap-locations-icon {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.swap-locations-icon:hover {
+    height: 2rem;
+    width: 2rem;
+    transition: 0.5s;
+}
+
+.box {
+    height: 3.5rem;
+    border-radius: 0.5rem;
+}
+
+.dates-box {
+    height: 1rem;
+    width: 7rem;
+    background-color: rgb(242, 242, 242);
+    border-radius: 0.25rem;
+    padding: 0.5rem 0.5rem;
+    font-size: small;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.dates-box:hover {
+    background-color: rgb(230, 230, 230);
+}
+
+.routes-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem 0;
+    padding: 0;
+    width: 100%;
+    margin: 5rem 0;
+}
+
+
+.routes-list li {
+    height: 12rem;
+    width: 100%;
+    background-color: white;
+    border-radius: 0.25rem;
+}

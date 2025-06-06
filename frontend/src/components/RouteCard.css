@@ -1,0 +1,149 @@
+.route-card {
+    border: 2px solid rgb(166, 166, 166);
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    min-width: 70%;
+    max-width: 80%;
+    background-color: white;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.route-card:hover {
+    transform: scale(1.01);
+}
+
+.company-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid black;
+    background-color: rgb(247, 247, 247);
+    flex-wrap: wrap;
+}
+
+.company-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.company-logo {
+    height: 3rem;
+    width: 3rem;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    background-color: gray;
+}
+
+.company-name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.info-button {
+    padding: 0.5rem 14px;
+    background-color: rgb(73, 73, 73);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    margin-top: 0.5rem;
+}
+
+.info-button:hover {
+    background-color: rgb(44, 44, 44);
+}
+
+.route-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+
+.route-side {
+    flex: 0.2;
+}
+
+.route-left {
+    text-align: left;
+}
+
+.route-right {
+    text-align: right;
+}
+
+.location-label {
+    font-size: 14px;
+    color: rgb(160, 160, 160);
+    margin-bottom: 4px;
+}
+
+.route-time {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.route-location {
+    font-size: 16px;
+    color : rgb(52, 52, 52);
+}
+
+.route-details {
+    flex: 0.6;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+.seats {
+    font-size: 16px;
+    margin-top: 6px;
+}
+
+.price {
+    font-size: 16px;
+    margin-top: 6px;
+    font-weight: bold;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.weather-button, .map-button {
+    padding: 0.5rem 1rem;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3 ease;
+}
+
+.weather-button {
+    background-color: rgb(0, 123, 255);
+}
+
+.map-button {
+    background-color: rgb(143, 56, 27);
+}
+
+.weather-button:hover {
+    background-color: rgb(0, 87, 180);
+}
+
+.map-button:hover {
+    background-color: rgb(92, 41, 0);
+}

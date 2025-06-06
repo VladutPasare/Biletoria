@@ -1,0 +1,198 @@
+.main-container {
+    padding: 0 3rem;
+    border-radius: 10px;
+    margin-top: 2rem;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-route-box {
+    background-color: white;
+    margin: 2rem 0;
+    height: 20rem;
+    padding: 0.5rem 6rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    place-items: center;
+    border-radius: 15px;
+    box-shadow: 3px 3px 15px rgb(0, 0, 0, 0.5);
+    border: 1px solid lightgray;
+}
+
+.search-route-box > :nth-child(1) {
+    justify-self: start;
+}
+
+.search-route-box > :nth-child(2) {
+    justify-self: end;
+}
+
+.search-route-box > :nth-child(3) {
+    justify-self: start;
+}
+
+.search-route-box > :nth-child(4) {
+    justify-self: end;
+    
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 25rem;
+}
+
+.input-container label {
+    padding: 0 1rem;
+    font-weight: bold;
+}
+
+.input-location {
+    height: 5rem;
+    border: none;
+    background-color: rgb(242, 242, 242);
+    border-radius: 1.5rem;
+    padding: 0 2rem;
+    font-size: medium;
+}
+
+#stations {
+    width: 100%;
+}
+
+.dates {
+    height: 3rem;
+    width: 7rem;
+    background-color: rgb(242, 242, 242);
+    margin-left: 1rem;
+    border-radius: 0.25rem;
+    padding: 0.5rem 2rem;
+    font-size: medium;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.dates:hover {
+    background-color: rgb(230, 230, 230);
+}
+
+.search-button {
+    display: inline-block;
+    text-align: center;
+    height: 3.5rem;
+    width: 8rem;
+    border: none;
+    border-radius: 0.25rem;
+    color: white;
+    background-color: rgb(243, 74, 7);
+    font-weight: bold;
+    margin-top: 2rem;
+    cursor: pointer;
+    margin-right: 0.5rem;
+    font-size: medium;
+}
+
+.search-button span {
+    display: inline;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.search-button span::after {
+    content: "\00bb";
+    position: absolute;
+    opacity: 0;
+    right: -10px;
+    transition: 0.5s;
+    top: 0;
+}
+
+.search-button:hover span {
+    padding-right: 1rem;
+}
+
+.search-button:hover span::after {
+    opacity: 1;
+    right: 0;
+}
+
+.popular-destinations-list {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+}
+
+.popular-destinations-list li {
+    margin-right: 5rem;
+    
+}
+
+.popular-destinations-list li a {
+    font-size: large;
+    color: black;
+}
+
+@media (max-width: 1150px) {
+    .main-container {
+        padding: 0;
+        border-radius: 10px;
+        margin-top: 2rem;
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .search-route-box {
+        height: fit-content;
+        background-color: white;
+        margin: 2rem 0;
+        padding: 2rem 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        border-radius: 15px;
+        box-shadow: 3px 3px 15px rgb(0, 0, 0, 0.5);
+        border: 1px solid lightgray;
+    }
+    
+    .input-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        height: 5rem;
+        width: 90%;
+    }
+
+    #dates {
+        height: 1.5rem;
+        width: 7rem;
+        background-color: rgb(242, 242, 242);
+        margin-left: 1rem;
+        border-radius: 0.25rem;
+        padding: 0.5rem 2rem;
+        font-size: medium;
+        border: 1px solid black;
+    }
+
+    .popular-destinations-list li {
+        margin-right: 1rem;
+    }
+
+    .popular-destinations-list li a {
+        font-size: small;
+        color: black;
+    }
+
+    .search-button {
+        margin-top: 0;
+        height: 2.5rem;
+        width: 6rem;
+        font-size: small;
+    }
+}
