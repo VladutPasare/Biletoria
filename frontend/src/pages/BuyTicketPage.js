@@ -1,8 +1,9 @@
 import "./BuyTicketPage.css"
 import ContentLayout from "../components/ContentLayout";
 import NavigationBar from "../components/NavigationBar";
-
+import { useLocation } from "react-router-dom";
 import { useState } from "react"
+
 
 const BuyTicketPage = () => {
     const [email, setEmail] = useState("");
@@ -11,6 +12,25 @@ const BuyTicketPage = () => {
     const [showForm, setShowForm] = useState(false);
     const [passengers, setPassengers] = useState([]);
     const [message, setMessage] = useState("");
+    const location = useLocation();
+    const { routeId, adultPrice, childPrice, departure, destination, date, maxNumberOfPassengers } = location.state || {};
+
+    const formatDate = (isoString) => {
+        if(!isoString) {
+            return "";
+        }
+
+        const options = {
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false
+        }
+        const date = new Date(isoString);
+        return date.toLocaleString("ro-Ro", options);
+    }
 
     const handleContinue = () => {
         if(!email.trim()) {
@@ -18,9 +38,18 @@ const BuyTicketPage = () => {
             return;
         }
 
-        if(numberOfAdults + numberOfChildren === 0) {
-            alert("Trebuie sa adaugi cel puțin un pasager!");
+        if(numberOfAdults === 0) {
+            alert("Copiii trebuie însoțiți de cel puțin un adult!");
             return;
+        }
+        const passengers = numberOfAdults + numberOfChildren;
+        if(passengers === 0) {
+            alert("Trebuie să adaugi cel puțin un pasager!");
+            return;
+        }
+
+        if(passengers > maxNumberOfPassengers) {
+            alert(`Numărul de pasageri nu poate depăsi ${maxNumberOfPassengers}.`);
         }
 
         const newPassengers = [];
@@ -45,19 +74,61 @@ const BuyTicketPage = () => {
         setPassengers(updated);
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const total = numberOfAdults * 120 + numberOfChildren * 60;
+        for(const passenger of passengers) {
+            if(!passenger.name.trim() || !passenger.lastName.trim()) {
+                alert("Completați toate câmpurile pentru pasageri!");
+                return;
+            }
+        }
 
-        let summary = `Biletul a fost rezervat cu success!\nUn email cu acesta a fost trimis la adresa ${email}\nRută Cluj-Napoca -> Bucuresti\n\nPasageri:`;
+        try {
+            const ticketPromises = passengers.map(passenger => {
+                const ticketData = {
+                    routeId: routeId,
+                    departureStationName: departure,
+                    destinationStationName: destination,
+                    firstName: passenger.name,
+                    lastName: passenger.lastName,
+                    passengerType: passenger.type.toUpperCase(),
+                    departureDate: new Date(date).toISOString().slice(0, 19),
+                    email: email
+                };
+                console.log(ticketData)
+                return fetch("http://localhost:8080/ticket", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(ticketData),
+                })
+                .then(response => {
+                    if(!response.ok) {
+                        throw new Error("Response for passengers data was not ok!", response.message);
+                    }
+                    return response.json();
+                });
+            });
+
+            await Promise.all(ticketPromises);
         
-        passengers.forEach((p, index) => {
-            summary += `\n${index + 1}. ${p.type}: ${p.name} ${p.lastName}`;
-        });
+            const total = numberOfAdults * adultPrice + numberOfChildren * childPrice;
 
-        summary += `\n\nTotal plată: ${total} RON`;
-        setMessage(summary.replace(/\n/g, "<br>"));
+            let summary = `Biletul a fost rezervat cu success!\nUn email cu acesta a fost trimis la adresa ${email}\nRută Cluj-Napoca -> Bucuresti\n\nPasageri:`;
+        
+            passengers.forEach((p, index) => {
+                summary += `\n${index + 1}. ${p.type}: ${p.name} ${p.lastName}`;
+            });
+
+            summary += `\n\nTotal plată: ${total} RON`;
+            setMessage(summary.replace(/\n/g, "<br>"));
+        }
+        catch(error) {
+            console.error("Error booking tickets: ", error);
+            alert("A apărut o eroare la rezervarea biletului");
+        }
     }
 
     return(
@@ -67,23 +138,23 @@ const BuyTicketPage = () => {
                 <h2>Cumpără Bilet</h2>
                 <div>
                     <label>Rută selectată</label>
-                    <div className="route">Cluj-Napoca → Bucuresti</div>
+                    <div className="route">{departure} → {destination}, {formatDate(date)}</div>
                 </div>
                 <div className="price-box">
-                    <p><strong>Preț adult:</strong> 140 RON</p>
-                    <p><strong>Preț copil:</strong> 50 RON</p>
+                    <p><strong>Preț adult:</strong> {adultPrice} RON</p>
+                    <p><strong>Preț copil:</strong> {childPrice} RON</p>
                 </div>
                 <div>
-                    <label for="ticket-email">Email</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} id="ticket-email" placeholder="andrei.ionescu@gmail" />
+                    <label htmlFor="ticket-email">Email</label>
+                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} id="ticket-email" placeholder="andrei.ionescu@gmail" required/>
                 </div>
                 <div>
-                    <label for="number-Of-Adults">Adulți</label>
-                    <input type="number" id="number-Of-Adults" min="0" value={numberOfAdults} onChange={(e) => setNumberOfAdults(Number(e.target.value))} defaultValue="1"/>
+                    <label htmlFor="number-Of-Adults">Adulți</label>
+                    <input type="number" id="number-Of-Adults" min="0" value={numberOfAdults} onChange={(e) => setNumberOfAdults(Number(e.target.value))}/>
                 </div>
                 <div>
-                    <label for="number-Of-Children">Copii</label>
-                    <input type="number" id="number-Of-Children" min="0" value={numberOfChildren} onChange={(e) => setNumberOfChildren(Number(e.target.value))} defaultValue="1"/>
+                    <label htmlFor="number-Of-Children">Copii</label>
+                    <input type="number" id="number-Of-Children" min="0" value={numberOfChildren} onChange={(e) => setNumberOfChildren(Number(e.target.value))}/>
                 </div>
                 <button className="ticket-button" onClick={handleContinue}>Continuă</button>
                 

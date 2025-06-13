@@ -7,12 +7,13 @@ import { useEffect, useState } from "react";
 
 const MapPage = () => { // →
     const location = useLocation();
-    const { departure, destination, routeId } = location.state || {};
+    const { departure, destination, date, routeId } = location.state || {};
     const [stops, setStops] = useState([]);
 
     useEffect(() => {
-        if(routeId) {
-            fetch(`http://localhost:8080/route-station/stops?routeId=${routeId}`)
+        if(routeId && date) {
+            const formattedDate = new Date(date).toISOString().split('T')[0];
+            fetch(`http://localhost:8080/route-station/stops?routeId=${routeId}&date=${formattedDate}&departure=${departure}&destination=${destination}`)
             .then(response => {
                 if(!response.ok) {
                     console.log("Error fetching stations.");
@@ -22,7 +23,7 @@ const MapPage = () => { // →
             .then(data => setStops(data))
             .catch(error => console.error(error));
         }
-    }, [routeId]);
+    }, [routeId, date]);
 
     return (
         <ContentLayout>
@@ -38,7 +39,7 @@ const MapPage = () => { // →
                             <div className="arrow">→</div>
                             <div className="route-box">
                                 <div className="name">{stop.name}</div>
-                                <div className="date">Ajunge la: {new Date(stop.arrivalTime).toLocaleString()}</div>
+                                <div className="date">Ajunge la: {new Date(stop.exactArrivalTime).toLocaleString()}</div>
                                 <div className="facilities">{stop.facilities.join(", ")}</div>
                             </div>
                         </div>

@@ -17,7 +17,7 @@ function RoutesPage() {
     const [children, setChildren] = useState(0);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => { console.log("da")
+    useEffect(() => {
         if(departure && destination && date) {
             setLoading(true);
             const url = `http://localhost:8080/route/search` + 
@@ -95,7 +95,10 @@ function RoutesPage() {
                             arrivalTime={route.arrivalTime}
                             company={route.company}
                             availableSeats={route.availableSeats}
-                            price={route.price}
+                            adultPrice={route.adultPrice}
+                            childPrice={route.childPrice}
+                            adults = {adults}
+                            children= {children}
                         />
                     ))
                 )}

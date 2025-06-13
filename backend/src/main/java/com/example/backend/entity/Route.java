@@ -28,4 +28,7 @@ public class Route {
 
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL)
     private List<RouteStation> routeStations;
+
+    @Column(nullable = false)
+    private Integer seats;
 }

@@ -6,22 +6,24 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.*;
+import java.util.UUID;
 
 @Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Facility {
+public class StationFacility {
     @Id
     @GeneratedValue(strategy= GenerationType.UUID)
     @Column(nullable = false)
     private UUID id;
 
-    @Column(nullable = false)
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "station_id", nullable = false)
+    private Station station;
 
-    @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL)
-    private List<StationFacility> stationFacilities = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "facility_id", nullable = false)
+    private Facility facility;
 }

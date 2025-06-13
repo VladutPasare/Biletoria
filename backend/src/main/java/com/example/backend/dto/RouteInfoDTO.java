@@ -18,5 +18,7 @@ public class RouteInfoDTO {
     private LocalDateTime arrivalTime;
     private String company;
     private Integer availableSeats;
-    private Double price;
+    //private Double price;
+    private Double adultPrice;
+    private Double childPrice;
 }

@@ -40,35 +40,48 @@ const weatherCodes = {
 const WeatherPage = () => {
     const [weatherData, setWeatherData] = useState([]);
     const location = useLocation();
-    const routeId = location.state.routeId;
+    const {departure, destination, date, routeId} = location.state || {};
     const [stops, setStops] = useState([]);
     const [loadingStops, setLoadingStops] = useState(true);
     const [loadingWeatherData, setLoadingWeatherData] = useState(true);
     
     useEffect(() => {
-        if(routeId) {
+        if(routeId && date) {
             setLoadingStops(true);
-            fetch(`http://localhost:8080/route-station/stops?routeId=${routeId}`)
+            const formattedDate = new Date(date).toISOString().split('T')[0];
+            fetch(`http://localhost:8080/route-station/stops?routeId=${routeId}&date=${formattedDate}&departure=${departure}&destination=${destination}`)
             .then(response => {
                 if(!response.ok) {
-                    console.log("Error fetching stations.");
+                    throw new Error("Failed to fetch stations data");
                 }
                 return response.json();
             })
             .then(data => {
-                setStops(data);
+                if(Array.isArray(data)) {
+                    setStops(data);
+                    console.log(data);
+                }
+                else {
+                    console.log("Stations data is not an array: ", data);
+                    setStops([]);
+                }
                 setLoadingStops(false);
             })
             .catch(error => {
-                console.error(error)
+                console.error(error);
+                setStops([]);
                 setLoadingStops(false);
             });
         }
-    }, [routeId]);
+        else {
+            setStops([]);
+            setLoadingStops(false);
+        }
+    }, [routeId, date]);
 
 
     useEffect(() => {
-        if(stops.length === 0) {
+        if(!Array.isArray(stops) || stops.length === 0) {
             setLoadingWeatherData(false);
             return;
         }
@@ -76,7 +89,7 @@ const WeatherPage = () => {
         const fetchWeather = async () => {
             const results = await Promise.all(
                 stops.map(async (stop) => {
-                    const date = new Date(stop.arrivalTime);
+                    const date = new Date(stop.exactArrivalTime);
                     const yyyy = date.getUTCFullYear();
                     const mm = String(date.getUTCMonth() + 1).padStart(2, "0");
                     const dd = String(date.getUTCDate()).padStart(2, "0");
@@ -90,14 +103,14 @@ const WeatherPage = () => {
 
                         return {
                             name: stop.name,
-                            arrivalTime: stop.arrivalTime,
+                            exactArrivalTime: stop.exactArrivalTime,
                             temperature: Math.round(data.hourly.temperature_2m[hourIndex]),
                             weatherDescription: weatherCodes[data.hourly.weathercode[hourIndex]] || {icon: "?", description: "Necunoscut"},
                         };
                     } catch(error) {
                         return {
                             name: stop.name,
-                            arrivalTime: stop.arrivalTime,
+                            exactArrivalTime: stop.exactArrivalTime,
                             temperature: "-",
                             weatherDescription: {icon: "", description: "Nu se poate încarca"}
                         };
@@ -119,7 +132,7 @@ const WeatherPage = () => {
             </ContentLayout>
         );
     }
-    if(!loadingStops && !loadingWeatherData && weatherData.length === 0) {
+    if(!loadingStops && !loadingWeatherData && (!Array.isArray(weatherData) || weatherData.length === 0)) {
         return (
             <ContentLayout>
                 <NavigationBar></NavigationBar>
@@ -138,7 +151,7 @@ const WeatherPage = () => {
                                     <div className="arrow">→</div>
                                     <div className="route-box">
                                         <div className="name">{stop.name}</div>
-                                        <div className="date">Ajunge la: {new Date(stop.arrivalTime).toLocaleString()}</div>
+                                        <div className="date">Ajunge la: {new Date(stop.exactArrivalTime).toLocaleString()}</div>
                                         <div className="weather">
                                             {stop.temperature}℃,  {stop.weatherDescription.icon} {stop.weatherDescription.description}
                                         </div>

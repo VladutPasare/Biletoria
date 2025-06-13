@@ -17,14 +17,14 @@ function NavigationBar() {
                 </div>
                 <div className="navigation-links desktop">
                     <Link to="/acasa">Acasă</Link>
-                    <Link to="/acasa">Intră în cont</Link>
+                    <Link to="/authentication">Intră în cont</Link>
                     <Link to="/acasa">Cum funcționeză</Link>
                     <Link to="/acasa">Contact</Link>
                 </div>
             </div>
             <div className="navigation-links mobile" id="navigationLinks">
                 <Link to="/acasa">Acasă</Link>
-                <Link to="/acasa">Intră în cont</Link>
+                <Link to="/authentication">Intră în cont</Link>
                 <Link to="/acasa">Cum funcționeză</Link>
                 <Link to="/acasa">Contact</Link>
             </div>

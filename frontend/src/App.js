@@ -5,6 +5,7 @@ import RoutesPage from "./pages/RoutesPage.js"
 import MapPage from "./pages/MapPage.js";
 import WeatherPage from "./pages/WeatherPage.js";
 import BuyTicketPage from "./pages/BuyTicketPage.js";
+import AuthenticationPage from "./pages/AuthenticationPage.js";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/map" element={<MapPage/>} />
         <Route path="/weather" element={<WeatherPage/>} />
         <Route path="/buy-ticket" element={<BuyTicketPage/>} />
+        <Route path="/authentication" element={<AuthenticationPage/>} />
       </Routes>
     </BrowserRouter>
   );

@@ -21,7 +21,7 @@ function SearchRoute() {
         });
     }, []);
 
-    const handleSearch = () => {
+    const handleSearch = () => {console.log(date);
         if(departure && destination && date) {
             navigate("/routes", {
                 state: {

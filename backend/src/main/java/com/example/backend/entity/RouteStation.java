@@ -6,7 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -32,7 +34,10 @@ public class RouteStation {
     private Integer stopOrder;
 
     @Column(nullable = false)
-    private LocalDateTime arrivalTime;
+    private LocalTime arrivalTime;
+
+    @Column(nullable = false)
+    private DayOfWeek dayOfWeek;
 
     @Column(nullable = false)
     private Double priceAdult; // price calculated from the first station until this one
@@ -40,6 +45,6 @@ public class RouteStation {
     @Column(nullable = false)
     private Double priceChild;
 
-    @Column(nullable = false)
-    private Integer availableSeats;
+    @OneToMany(mappedBy = "routeStation", cascade = CascadeType.ALL)
+    private List<Schedule> schedules;
 }

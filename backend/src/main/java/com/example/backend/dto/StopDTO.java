@@ -16,6 +16,6 @@ public class StopDTO {
     private String name;
     private Double latitude;
     private Double longitude;
-    private LocalDateTime arrivalTime;
+    private LocalDateTime exactArrivalTime;
     private List<String> facilities;
 }

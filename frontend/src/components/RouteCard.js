@@ -1,7 +1,7 @@
 import "./RouteCard.css"
 import { useNavigate } from "react-router-dom"
 
-const RouteCard = ({id, departureLocation, arrivalLocation, departureTime, arrivalTime, company, availableSeats, price}) => { // 🗺️ℹ️☁️💰💺📍
+const RouteCard = ({id, departureLocation, arrivalLocation, departureTime, arrivalTime, company, availableSeats, adultPrice, childPrice, adults, children}) => { // 🗺️ℹ️☁️💰💺📍
     const navigate = useNavigate();
 
     const convertTime = (dateTime) => {
@@ -13,7 +13,13 @@ const RouteCard = ({id, departureLocation, arrivalLocation, departureTime, arriv
         <div className="route-card" onClick={() => {
                             navigate("/buy-ticket", {
                                 state: {
-                                    routeId: id
+                                    routeId: id,
+                                    adultPrice,
+                                    childPrice,
+                                    departure: departureLocation,
+                                    destination: arrivalLocation,
+                                    date: departureTime,
+                                    maxNumberOfPassengers: availableSeats
                                 }
                             })}}>
             <div className="company-header">
@@ -31,12 +37,15 @@ const RouteCard = ({id, departureLocation, arrivalLocation, departureTime, arriv
                 </div>
                 <div className="route-details">
                     <div className="seats">💺 Locuri disponibile: {availableSeats}</div>
-                    <div className="price">Pret: {price} RON</div>
+                    <div className="price">Pret: {adultPrice * adults + childPrice * children} RON</div>
                     <div className="buttons-container">
                         <button className="weather-button" onClick={(e) => {
                             e.stopPropagation();
                             navigate("/weather", {
                                 state: {
+                                    departure: departureLocation,
+                                    destination: arrivalLocation,
+                                    date: departureTime,
                                     routeId: id
                                 }
                             })}}>☁️ Weather</button>
@@ -47,6 +56,7 @@ const RouteCard = ({id, departureLocation, arrivalLocation, departureTime, arriv
                                 state: {
                                     departure: departureLocation,
                                     destination: arrivalLocation,
+                                    date: departureTime,
                                     routeId: id
                                 }
                             })}}>🗺️ Route</button>

@@ -7,10 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -32,14 +30,15 @@ public class Station {
     @Column(nullable = false)
     private Double longitude;
 
-    @ManyToMany
-    @JoinTable(
-            name = "station_facility",
-            joinColumns = @JoinColumn(name = "station_id"),
-            inverseJoinColumns = @JoinColumn(name = "facility_id")
-    )
-    private Set<Facility> facilities;
+    @OneToMany(mappedBy = "station", cascade = CascadeType.ALL)
+    private List<StationFacility> stationFacilities = new ArrayList<>();
 
     @OneToMany(mappedBy = "station" , cascade = CascadeType.ALL)
     private List<RouteStation> stationRoutes;
+
+    public List<Facility> getFacilities() {
+        return stationFacilities.stream()
+                .map(StationFacility::getFacility)
+                .collect(Collectors.toList());
+    }
 }
