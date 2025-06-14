@@ -25,7 +25,7 @@
     flex-wrap: wrap;
 }
 
-.company-info {
+.company-info-box {
     display: flex;
     align-items: center;
     gap: 1rem;

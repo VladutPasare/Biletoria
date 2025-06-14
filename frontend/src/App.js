@@ -6,6 +6,8 @@ import MapPage from "./pages/MapPage.js";
 import WeatherPage from "./pages/WeatherPage.js";
 import BuyTicketPage from "./pages/BuyTicketPage.js";
 import AuthenticationPage from "./pages/AuthenticationPage.js";
+import PassengerPage from "./pages/PassengerPage.js"
+import CompanyAdminPage from "./pages/CompanyAdminPage.js";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Route path="/weather" element={<WeatherPage/>} />
         <Route path="/buy-ticket" element={<BuyTicketPage/>} />
         <Route path="/authentication" element={<AuthenticationPage/>} />
+        <Route path="passenger" element={<PassengerPage/>} />
+        <Route path="company-admin" element={<CompanyAdminPage/>} />
       </Routes>
     </BrowserRouter>
   );

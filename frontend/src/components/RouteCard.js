@@ -23,7 +23,7 @@ const RouteCard = ({id, departureLocation, arrivalLocation, departureTime, arriv
                                 }
                             })}}>
             <div className="company-header">
-                <div className="company-info">
+                <div className="company-info-box">
                     <div className="company-logo" alt="Bus Company Logo"></div>
                     <div className="company-name">{company}</div>
                 </div>
